@@ -2,6 +2,5 @@
     "java.project.explorer.showNonJavaResources": true,
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
-        "c:\\Users\\Keandre Fuel\\Desktop\\junit-jupiter-api-5.10.1.jar"
     ]
 }
