@@ -1,6 +1,11 @@
 {
     "java.project.explorer.showNonJavaResources": true,
-    "java.project.referencedLibraries": [
-        "lib/**/*.jar",
-    ]
+    "java.project.referencedLibraries": {
+        "include": [
+            "lib/**/*.jar"
+        ],
+        "exclude": [
+            "lib/junit-jupiter-api-5.10.1.jar"
+        ]
+    }
 }
