@@ -19,4 +19,3 @@ The `JAVA PROJECTS` view allows you to manage your dependencies. More details ca
 
 
 //TODO//
-make character sprites(2 down, 2 left, 2 right, 2 up)
