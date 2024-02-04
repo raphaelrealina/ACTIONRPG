@@ -1,6 +1,8 @@
 {
     "java.project.explorer.showNonJavaResources": true,
-    "java.project.referencedLibraries": [
-        "lib/**/*.jar"
-    ]
+    "java.project.referencedLibraries": {
+        "include": [
+            "lib/**/*.jar"
+        ],
+    }
 }

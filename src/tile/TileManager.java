@@ -52,26 +52,26 @@ public class TileManager {
         try {
             InputStream is = getClass().getResourceAsStream(filePath);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
-    
+
             int col = 0;
             int row = 0;
-    
+
             String line;
             while ((line = br.readLine()) != null && col < gp.maxWorldCol && row < gp.maxWorldRow) {
                 String numbers[] = line.split(" ");
-    
+
                 for (int i = 0; i < numbers.length && col < gp.maxWorldCol; i++) {
                     int num = Integer.parseInt(numbers[i]);
                     mapTileNum[col][row] = num;
                     col++;
                 }
-    
+
                 if (col == gp.maxWorldCol) {
                     col = 0;
                     row++;
                 }
             }
-    
+
             br.close();
         } catch (Exception e) {
             e.printStackTrace();

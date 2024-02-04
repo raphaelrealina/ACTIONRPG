@@ -14,11 +14,10 @@ public class PlayRPG {
 
         window.pack();
 
-
         window.setLocationRelativeTo(null);
         window.setVisible(true);
 
         gamePanel.startGameThread();
-        
+
     }
 }
