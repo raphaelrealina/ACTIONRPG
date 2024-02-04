@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class SkillTree {
-    Skill rootSkill;
+    public Skill rootSkill;
 
     public SkillTree() {
         this.rootSkill = null;
@@ -17,8 +17,8 @@ public class SkillTree {
      *
      * @param value the value of the skill to be added
      */
-    public void add(int value) {
-        rootSkill = addRecursive(rootSkill, value);
+    public void learnSkill(int value) {
+        rootSkill = learnSkillRecursive(rootSkill, value);
     }
 
     /**
@@ -26,8 +26,8 @@ public class SkillTree {
      *
      * @param value the value of the skill to be deleted
      */
-    public void delete(int value) {
-        rootSkill = deleteRecursive(rootSkill, value);
+    public void forgetSkill(int value) {
+        rootSkill = forgetSkillRecursive(rootSkill, value);
     }
 
     /**
@@ -36,22 +36,22 @@ public class SkillTree {
      * @param value the value of the skill to search for
      * @return true if the skill tree contains the skill, false otherwise
      */
-    public boolean containsSkill(int value) {
+    public boolean knowsSkill(int value) {
         return containsSkillRecursive(rootSkill, value);
     }
 
     /**
      * Performs an in-order traversal of the skill tree.
      */
-    public void traverseInOrder() {
-        traverseInOrderRecursive(rootSkill);
+    public void displayLearnedSkills() {
+        knowsSkillRecursive(rootSkill);
     }
 
     /**
      * Performs a reverse in-order traversal of the skill tree.
      */
-    public void traverseInReverse() {
-        traverseInReverseRecursive(rootSkill);
+    public void displayLearnedSkillsInReverse() {
+        traverseSkillsInReverseOrder(rootSkill);
     }
 
     /**
@@ -59,15 +59,15 @@ public class SkillTree {
      *
      * @param current the current node in the traversal
      */
-    public void traversePostOrder(Skill current) {
-        traversePostOrderRecursive(current);
+    public void displayLearnedSkillsPostOrder(Skill current) {
+        traverseSkillsPostOrder(current);
     }
 
     /**
      * Performs a level-order traversal of the skill tree.
      */
-    public void traverseLevelOrder() {
-        traverseLevelOrderRecursive(rootSkill);
+    public void displayLearnedSkillsLevelOrder() {
+        traverseSkillsLevelOrder(rootSkill);
     }
 
     // Private Methods
@@ -79,7 +79,7 @@ public class SkillTree {
      * @param value   the value of the skill to be added
      * @return the root node of the updated skill tree
      */
-    private Skill addRecursive(Skill current, int value) {
+    private Skill learnSkillRecursive(Skill current, int value) {
         if (current == null) {
             return new Skill(value);
         }
@@ -88,13 +88,13 @@ public class SkillTree {
             if (current.children.isEmpty()) {
                 current.children.add(new Skill(value));
             } else {
-                current.children.set(0, addRecursive(current.children.get(0), value));
+                current.children.set(0, learnSkillRecursive(current.children.get(0), value));
             }
         } else if (value > current.value) {
             if (current.children.size() < 2) {
                 current.children.add(new Skill(value));
             } else {
-                current.children.set(1, addRecursive(current.children.get(1), value));
+                current.children.set(1, learnSkillRecursive(current.children.get(1), value));
             }
         } else {
             return current; // Value already exists in the tree
@@ -110,7 +110,7 @@ public class SkillTree {
      * @param value   the value of the skill to be deleted
      * @return the root node of the updated skill tree
      */
-    private Skill deleteRecursive(Skill current, int value) {
+    private Skill forgetSkillRecursive(Skill current, int value) {
         if (current == null) {
             return null;
         }
@@ -126,15 +126,15 @@ public class SkillTree {
 
             // More than one child, find the inorder successor (smallest node in the right
             // subtree)
-            current.value = findSmallestValue(current.children.get(1));
-            current.children.set(1, deleteRecursive(current.children.get(1), current.value));
+            current.value = findSmallestSkillValue(current.children.get(1));
+            current.children.set(1, forgetSkillRecursive(current.children.get(1), current.value));
             return current;
         }
 
         if (value < current.value) {
-            current.children.set(0, deleteRecursive(current.children.get(0), value));
+            current.children.set(0, forgetSkillRecursive(current.children.get(0), value));
         } else {
-            current.children.set(1, deleteRecursive(current.children.get(1), value));
+            current.children.set(1, forgetSkillRecursive(current.children.get(1), value));
         }
 
         return current;
@@ -145,14 +145,14 @@ public class SkillTree {
      *
      * @param current the current node in the traversal
      */
-    private void traverseInOrderRecursive(Skill current) {
+    private void knowsSkillRecursive(Skill current) {
         if (current != null) {
             if (!current.children.isEmpty()) {
-                traverseInOrderRecursive(current.children.get(0)); // Visit left subtree
+                knowsSkillRecursive(current.children.get(0)); // Visit left subtree
             }
             System.out.print(current.value + " "); // Visit current node
             if (current.children.size() > 1) {
-                traverseInOrderRecursive(current.children.get(1)); // Visit right subtree
+                knowsSkillRecursive(current.children.get(1)); // Visit right subtree
             }
         }
     }
@@ -163,7 +163,7 @@ public class SkillTree {
      * @param current the current node in the traversal
      * @return the smallest value in the tree
      */
-    private int findSmallestValue(Skill current) {
+    private int findSmallestSkillValue(Skill current) {
         while (!current.children.isEmpty()) {
             current = current.children.get(0);
         }
@@ -201,10 +201,10 @@ public class SkillTree {
      *
      * @param current the current node in the traversal
      */
-    private void traverseInReverseRecursive(Skill current) {
+    private void traverseSkillsInReverseOrder(Skill current) {
         if (current != null) {
             for (int i = current.children.size() - 1; i >= 0; i--) {
-                traverseInReverseRecursive(current.children.get(i));
+                traverseSkillsInReverseOrder(current.children.get(i));
             }
             System.out.print(current.value + " ");
         }
@@ -215,10 +215,10 @@ public class SkillTree {
      *
      * @param current the current node in the traversal
      */
-    private void traversePostOrderRecursive(Skill current) {
+    private void traverseSkillsPostOrder(Skill current) {
         if (current != null) {
             for (Skill skill : current.children) {
-                traversePostOrderRecursive(skill);
+                traverseSkillsPostOrder(skill);
             }
             System.out.print(current.value + " ");
         }
@@ -229,7 +229,7 @@ public class SkillTree {
      *
      * @param current the current node in the traversal
      */
-    private void traverseLevelOrderRecursive(Skill current) {
+    private void traverseSkillsLevelOrder(Skill current) {
         if (rootSkill == null) {
             return;
         }
