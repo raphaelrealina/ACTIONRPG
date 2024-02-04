@@ -1,7 +1,5 @@
 package main;
 
-
-
 import javax.swing.JFrame;
 
 public class PlayRPG {
@@ -16,11 +14,11 @@ public class PlayRPG {
 
         window.pack();
 
-
         window.setLocationRelativeTo(null);
         window.setVisible(true);
 
+        gamePanel.setupGame();
         gamePanel.startGameThread();
-        
+
     }
 }

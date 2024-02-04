@@ -98,8 +98,6 @@ public class TileManager {
 
                 g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
             }
-
-            g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
             worldCol++;
 
             if (worldCol == gp.maxWorldCol) {
