@@ -29,6 +29,8 @@ public class Player extends Entity {
         // will adjust later to fit the player
         solidArea.x = 0;
         solidArea.y = 0;
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
         solidArea.width = gp.tileSize;
         solidArea.height = gp.tileSize;
 
