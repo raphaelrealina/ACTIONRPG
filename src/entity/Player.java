@@ -17,6 +17,7 @@ public class Player extends Entity {
 
     public final int screenX;
     public final int screenY;
+    int hasKey = 0;
 
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
@@ -28,11 +29,11 @@ public class Player extends Entity {
         solidArea = new Rectangle();
         // will adjust later to fit the player
         solidArea.x = 0;
-        solidArea.y = 0;
+        solidArea.y = 16;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
-        solidArea.width = gp.tileSize;
-        solidArea.height = gp.tileSize;
+        solidArea.width = 32;
+        solidArea.height = 32;
 
         setDefaultValues();
         getPlayerImage();
@@ -90,6 +91,10 @@ public class Player extends Entity {
             collisionOn = false;
             gp.cChecker.checkTile(this);
 
+            // CHECK OBJECT COLLISION
+            int objIndex = gp.cChecker.checkObject(this, true);
+            pickkUpObject(objIndex);
+
             // IF COLLISION IS FALSE, PLAYER CAN MOVE
             if (collisionOn == false) {
                 switch (direction) {
@@ -119,6 +124,26 @@ public class Player extends Entity {
             spriteCounter = 0;
         }
 
+    }
+
+    public void pickkUpObject(int i) {
+        if (i != 999) {
+            String objectName = gp.obj[i].name;
+
+            switch (objectName) {
+                case "key":
+                    hasKey++;
+                    gp.obj[i] = null;
+                    System.out.println("Picked up key");
+                    break;
+                case "door":
+                    if (hasKey > 0) {
+                        gp.obj[i] = null;
+                        hasKey--;
+                    }
+                    break;
+            }
+        }
     }
 
     public void draw(Graphics2D g2) {
