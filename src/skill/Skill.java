@@ -3,11 +3,11 @@ package skill;
 import java.util.ArrayList;
 import java.util.List;
 
-class Skill {
+public class Skill {
     int value;
     List<Skill> children;
 
-    Skill(int value) {
+    public Skill(int value) {
         this.value = value;
         this.children = new ArrayList<Skill>();
     }
