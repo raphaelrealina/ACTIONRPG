@@ -28,12 +28,12 @@ public class Player extends Entity {
 
         solidArea = new Rectangle();
         // will adjust later to fit the player
-        solidArea.x = 0;
-        solidArea.y = 16;
+        solidArea.x = 8;
+        solidArea.y = 24;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
-        solidArea.width = 32;
-        solidArea.height = 32;
+        solidArea.width = 16;
+        solidArea.height = 16;
 
         setDefaultValues();
         getPlayerImage();
