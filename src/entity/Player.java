@@ -18,7 +18,7 @@ public class Player extends Entity {
 
     public final int screenX;
     public final int screenY;
-    int hasKey = 0;
+    // int hasKey = 0;
 
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
@@ -131,23 +131,7 @@ public class Player extends Entity {
     }
 
     public void pickkUpObject(int i) {
-        if (i != 999) {
-            String objectName = gp.obj[i].name;
 
-            switch (objectName) {
-                case "key":
-                    hasKey++;
-                    gp.obj[i] = null;
-                    System.out.println("Picked up key");
-                    break;
-                case "door":
-                    if (hasKey > 0) {
-                        gp.obj[i] = null;
-                        hasKey--;
-                    }
-                    break;
-            }
-        }
     }
 
     public void draw(Graphics2D g2) {

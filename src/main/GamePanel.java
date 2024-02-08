@@ -24,12 +24,18 @@ public class GamePanel extends JPanel implements Runnable {
     public final int screenHeight = maxScreenRow * tileSize; // 576 pixels
 
     TileManager tileM = new TileManager(this);
-    KeyHandler keyH = new KeyHandler();
+    KeyHandler keyH = new KeyHandler(this);
     Thread gameThread;
     public CollisionChecker cChecker = new CollisionChecker(this);
     public Player player = new Player(this, keyH);
     public SuperObject obj[] = new SuperObject[10];
     public AssetSetter aSetter = new AssetSetter(this);
+    public UI ui = new UI(this);
+
+    // gamestate
+    public int gameState;
+    public final int playState = 1;
+    public final int pauseState = 2;
 
     // World Settings
     public final int maxWorldCol = 50;
@@ -50,6 +56,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void setupGame() {
         aSetter.setObject();
+        gameState = playState;
     }
 
     public void startGameThread() {
@@ -88,7 +95,10 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        player.update();
+        if (gameState == playState)
+            player.update();
+        if (gameState == pauseState)
+            System.out.println("Game Paused");
     }
 
     public void paintComponent(Graphics g) {
@@ -107,6 +117,10 @@ public class GamePanel extends JPanel implements Runnable {
 
         // player
         player.draw(g2);
+
+        // UI
+        ui.draw(g2);
+
         g2.dispose();
     }
 
