@@ -1,6 +1,7 @@
 package entity;
 
 import main.KeyHandler;
+import main.UtilityTool;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -17,6 +18,7 @@ public class Player extends Entity {
 
     public final int screenX;
     public final int screenY;
+    int hasKey = 0;
 
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
@@ -27,10 +29,12 @@ public class Player extends Entity {
 
         solidArea = new Rectangle();
         // will adjust later to fit the player
-        solidArea.x = 0;
-        solidArea.y = 0;
-        solidArea.width = gp.tileSize;
-        solidArea.height = gp.tileSize;
+        solidArea.x = 8;
+        solidArea.y = 24;
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
+        solidArea.width = 16;
+        solidArea.height = 16;
 
         setDefaultValues();
         getPlayerImage();
@@ -44,28 +48,31 @@ public class Player extends Entity {
     }
 
     public void getPlayerImage() {
+
+        up1 = setup("New Piskel-11");
+        up2 = setup("New Piskel-12");
+        down1 = setup("New Piskel-2");
+        down2 = setup("New Piskel-3");
+        left1 = setup("New Piskel-5");
+        left2 = setup("New Piskel-6");
+        right1 = setup("New Piskel-8");
+        right2 = setup("New Piskel-9");
+    }
+
+    public BufferedImage setup(String imageName) {
+        UtilityTool uTool = new UtilityTool();
+        BufferedImage image = null;
+
         try {
-            // add src/res
-            down1 = ImageIO
-                    .read(getClass().getResourceAsStream("/res/player/New Piskel-2.png.png"));
-            down2 = ImageIO
-                    .read(getClass().getResourceAsStream("/res/player/New Piskel-3.png.png"));
-            left1 = ImageIO
-                    .read(getClass().getResourceAsStream("/res/player/New Piskel-5.png.png"));
-            left2 = ImageIO
-                    .read(getClass().getResourceAsStream("/res/player/New Piskel-6.png.png"));
-            right1 = ImageIO
-                    .read(getClass().getResourceAsStream("/res/player/New Piskel-8.png.png"));
-            right2 = ImageIO
-                    .read(getClass().getResourceAsStream("/res/player/New Piskel-9.png.png"));
-            up1 = ImageIO
-                    .read(getClass().getResourceAsStream("/res/player/New Piskel-11.png.png"));
-            up2 = ImageIO
-                    .read(getClass().getResourceAsStream("/res/player/New Piskel-12.png.png"));
+            image = ImageIO.read(getClass().getResourceAsStream("/res/player/" + imageName + ".png.png"));
+            image = uTool.scaleImage(image, gp.tileSize, gp.tileSize);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return image;
+
     }
 
     public void update() {
@@ -87,6 +94,10 @@ public class Player extends Entity {
             // CHECK TILE COLLISION
             collisionOn = false;
             gp.cChecker.checkTile(this);
+
+            // CHECK OBJECT COLLISION
+            int objIndex = gp.cChecker.checkObject(this, true);
+            pickkUpObject(objIndex);
 
             // IF COLLISION IS FALSE, PLAYER CAN MOVE
             if (collisionOn == false) {
@@ -119,6 +130,26 @@ public class Player extends Entity {
 
     }
 
+    public void pickkUpObject(int i) {
+        if (i != 999) {
+            String objectName = gp.obj[i].name;
+
+            switch (objectName) {
+                case "key":
+                    hasKey++;
+                    gp.obj[i] = null;
+                    System.out.println("Picked up key");
+                    break;
+                case "door":
+                    if (hasKey > 0) {
+                        gp.obj[i] = null;
+                        hasKey--;
+                    }
+                    break;
+            }
+        }
+    }
+
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
 
@@ -149,6 +180,6 @@ public class Player extends Entity {
                 break;
         }
 
-        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(image, screenX, screenY, null);
     }
 }

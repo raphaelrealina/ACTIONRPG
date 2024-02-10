@@ -17,6 +17,7 @@ public class PlayRPG {
         window.setLocationRelativeTo(null);
         window.setVisible(true);
 
+        gamePanel.setupGame();
         gamePanel.startGameThread();
 
     }
